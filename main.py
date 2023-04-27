@@ -1,6 +1,7 @@
 import FileHandling as fileHandling
 import Encryption as encryption
 import os 
+from os import system
 
 def encrypt_folder_data():
     pass
@@ -12,7 +13,7 @@ def encrypt_specific_data():
 
     return user_input
 
-def encrypt_data(user_input, codes):
+def encrypt_data(user_input, code):
     fh = fileHandling.FileHandling()
     file_byte_array = fh.read_from_file_bytearray(user_input["Input"])
 
@@ -43,7 +44,27 @@ def enter_codes():
 
     return codes
 
-if __name__ == "__main__":
+def dashboard():
+    
     print("\n", "-"*150)
     print("1. Single Doc\n2. Default Folder")
     print("\n", "-"*150)
+
+def user_choice():
+    user_choice = -1
+
+    while (user_choice not in [1,2]):
+        dashboard()
+        user_choice = input("--> ")
+        system('cls')
+
+    return user_choice
+
+
+if __name__ == "__main__":    
+    choice = user_choice()
+    codes = enter_codes()
+
+    if (choice == 1):
+        file_names = encrypt_specific_data()
+        
