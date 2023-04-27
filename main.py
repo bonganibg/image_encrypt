@@ -3,8 +3,12 @@ import Encryption as encryption
 import os 
 from os import system
 
-def encrypt_folder_data():
-    pass
+def encrypt_folder_data(codes):
+    file_names = os.listdir("./images")
+
+    for file in file_names:
+        file_names = {"Input": f"./images/{file}", "Output": f"./images/{file}"}
+        encrypt_data(file_names, codes)
 
 def encrypt_specific_data():
     user_input = {}
@@ -13,13 +17,14 @@ def encrypt_specific_data():
 
     return user_input
 
-def encrypt_data(user_input, code):
+def encrypt_data(user_input, codes):
     fh = fileHandling.FileHandling()
     file_byte_array = fh.read_from_file_bytearray(user_input["Input"])
 
     enc = encryption.Encrypt()
-    encrypted_data = enc.binary_encryption(file_byte_array, code)
-    # encrypted_data = enc.binary_encryption(file_byte_array, 233)
+    encrypted_data = enc.binary_encryption(file_byte_array, 111)
+    for code in codes:
+        encrypted_data = enc.binary_encryption(encrypted_data, code)
 
     fh.write_bytearray_to_file(encrypted_data, user_input["Output"])
 
@@ -55,7 +60,7 @@ def user_choice():
 
     while (user_choice not in [1,2]):
         dashboard()
-        user_choice = input("--> ")
+        user_choice = int(input("--> "))
         system('cls')
 
     return user_choice
@@ -67,4 +72,7 @@ if __name__ == "__main__":
 
     if (choice == 1):
         file_names = encrypt_specific_data()
-        
+        encrypt_data(file_names, codes)
+    else:
+        encrypt_folder_data(codes)
+
